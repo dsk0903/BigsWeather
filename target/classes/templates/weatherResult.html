@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>의정부시 문충로 날씨 단기 예보</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>의정부시 문충로 날씨 단기 예보</h1>
+	<p th:text="'기준 날짜 : ' + ${baseDate}" />
+	<p th:text="'기준 시간 : ' + ${baseTime} + ' 시'" />
+	<p th:text="'현재 기온 : ' + ${TMP} + '℃'" />
+	<p th:text="'최저 기온 : ' + ${TMN} + '℃'" />
+	<p th:text="'최고 기온 : ' + ${TMX} + '℃'" />
+	
+	<p th:text="'강수 확률 : ' + ${POP} + '%'" />
+	<p th:text="'강수 형태 : ' + ${PTY}" id="ptyText"/>
+	<p th:text="'1시간 강수량 : ' + ${PCP} + 'mm'" id="pcpText"/>
+	
+	<p th:text="'습도 : ' + ${REH} + '%'" />
+	<p th:text="'1시간 신적설 : ' + ${SNO} + 'mm'" id="snoText"/>
+	<p th:text="'하늘 상태 : ' + ${SKY}" id="skyText"/>
+	
+	<!--  
+	<p th:text="'풍향 : ' + ${VEC}" />
+	<p th:text="'풍속 : ' + ${WSD}" />
+	-->
+
+
+</body>
+	<script th:inline="javascript">
+	    $(document).ready(function () {
+	        var skyValue = /*[[${SKY}]]*/;
+	        if (skyValue === "1") {
+	            $("#skyText").text("하늘 상태 : 맑음");
+	        } else if (skyValue === "2") {
+	            $("#skyText").text("하늘 상태 : 구름많음");
+	        } else if (skyValue === "3") {
+	            $("#skyText").text("하늘 상태 : 흐림");
+	        }
+	    });
+	
+	    $(document).ready(function () {
+	        var ptyValue = /*[[${PTY}]]*/;
+	        if (ptyValue === "0") {
+	            $("#ptyText").hide();
+	            $("#pcpText").hide(); 
+	            $("#snoText").hide(); 
+	        } else if (ptyValue === "1") {
+	            $("#ptyText").text("강수 형태 : 비");
+	            $("#snoText").hide(); 
+	        } else if (ptyValue === "2") {
+	            $("#ptyText").text("강수 형태 : 비/눈");
+	        } else if (ptyValue === "3") {
+	            $("#ptyText").text("강수 형태 : 눈");
+	            $("#pcpText").hide(); 
+	        } else if (ptyValue === "4") {
+	            $("#ptyText").text("강수 형태 : 소나기");
+	            $("#snoText").hide(); 
+	        }
+	    });
+	</script>
+</html>

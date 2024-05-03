@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>의정부시 문충로 날씨 단기 예보</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	</head>
+	<body>
+		<h1>의정부시 문충로 날씨 단기 예보</h1>
+		
+		<form id="weatherForm" method="POST" action="/weatherResult">
+			<label for="baseDate">날짜:</label>
+			<input type="text" id="baseDate" name="baseDate" />
+
+			<label for="baseTime">시간:</label>
+			<select id="baseTime" name="baseTime">
+				<option value="01">01시</option>
+				<option value="02">02시</option>
+				<option value="03">03시</option>
+				<option value="04">04시</option>
+				<option value="05">05시</option>
+				<option value="06">06시</option>
+				<option value="07">07시</option>
+				<option value="08">08시</option>
+				<option value="09">08시</option>
+				<option value="10">10시</option>
+				<option value="11">11시</option>
+				<option value="12">12시</option>
+				<option value="13">13시</option>
+				<option value="14">14시</option>
+				<option value="15">15시</option>
+				<option value="16">16시</option>
+				<option value="17">17시</option>
+				<option value="18">18시</option>
+				<option value="19">19시</option>
+				<option value="20">20시</option>
+				<option value="21">21시</option>
+				<option value="22">22시</option>
+				<option value="23">23시</option>
+				<option value="00">00시</option>
+			</select>
+
+			<button type="button" id="submitBtn">전송</button>
+		</form>
+	</body>
+	<script>
+		$(document).ready(function(){
+			// 달력 기능 
+			$("#baseDate").datepicker({
+				dateFormat: 'yymmdd',
+				defaultDate: new Date()
+			}).datepicker("setDate", new Date());
+			
+			// 최근 시간 설정
+			var hours = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "00"];
+			var currentHour = new Date().getHours();
+			var closestHour = hours.reduce(function(prev, curr) {
+				return (Math.abs(curr - currentHour) < Math.abs(prev - currentHour) ? curr : prev);
+			});
+			$("#baseTime").val(closestHour);
+
+			// submit 버튼 클릭 시 처리
+			$("#submitBtn").click(function(){
+				var data = {
+					baseDate: $("#baseDate").val(),
+					baseTime: $("#baseTime").val(),
+					area: $("#area").val()
+				};
+				console.log(data); 
+				$("#weatherForm").submit();
+			});
+		});
+	</script>
+</html>
